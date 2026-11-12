@@ -72,6 +72,50 @@
   .sum3 .n { font-size: 15px; font-weight: 700; margin-top: 4px; }
   .sum3 .k { font-size: 12px; color: var(--sub); }
   .hide { display: none; }
+  .bc-top { display: flex; gap: 12px; align-items: center; }
+  .bc-info { flex: 1; min-width: 0; }
+  .bc-name { font-size: 30px; font-weight: 800; }
+  .bc-model { font-size: 15px; color: var(--sub); margin-top: 4px; }
+  .bc-photo { width: 48%; aspect-ratio: 4/3; border-radius: 14px; background: var(--bg) center/cover no-repeat; display: flex; align-items: center; justify-content: center; font-size: 34px; color: var(--sub); }
+  .bc-photo.has { font-size: 0; }
+  .bc-photo.pick { width: 100%; aspect-ratio: 16/9; font-size: 15px; border: 1px dashed var(--line); }
+  .bc-photo.pick.has { font-size: 0; border: none; }
+  .bc-foot { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--sub); }
+  .bc-foot b { flex: 1; color: var(--text); font-size: 17px; }
+  .al { background: var(--bg); border-radius: 12px; padding: 12px 12px 12px 14px; margin-bottom: 8px; border-left: 4px solid var(--service); }
+  .al.soon { border-left-color: var(--part); }
+  .al.over { border-left-color: var(--red); }
+  .al-top { display: flex; align-items: center; gap: 10px; }
+  .al-top .l { flex: 1; min-width: 0; }
+  .al .nm { font-size: 16px; font-weight: 700; }
+  .al .st { font-size: 13px; font-weight: 700; margin-top: 4px; color: var(--service); }
+  .al.soon .st { color: var(--part); }
+  .al.over .st { color: var(--red); }
+  .al .fr { font-size: 12px; color: var(--sub); margin-top: 3px; }
+  .al-bar { height: 6px; background: var(--card); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+  .al-bar i { display: block; height: 100%; background: var(--service); border-radius: 3px; }
+  .al.soon .al-bar i { background: var(--part); }
+  .al.over .al-bar i { background: var(--red); }
+  .done { border: 2px solid var(--service); background: none; color: var(--service); border-radius: 10px; padding: 8px 14px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+  .badge { display: inline-block; min-width: 18px; height: 18px; line-height: 18px; border-radius: 9px; background: var(--part); color: var(--bg); font-size: 11px; font-weight: 700; text-align: center; padding: 0 5px; margin-left: 5px; }
+  .badge.red { background: var(--red); }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg button { flex: 1; min-width: 56px; padding: 10px 0; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--text); font-size: 14px; }
+  .seg button.on { background: var(--wheel); color: var(--bg); font-weight: 700; border-color: var(--wheel); }
+  .stepper { display: flex; gap: 8px; align-items: center; }
+  .stepper button { width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--line); color: var(--text); font-size: 18px; }
+  .stepper input { text-align: center; font-size: 20px; font-weight: 700; }
+  .toggle { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 14px; }
+  .toggle input { width: 22px; height: 22px; }
+  .psi2 { display: flex; gap: 10px; }
+  .psi2 > div { flex: 1; background: var(--bg); border-radius: 12px; padding: 14px 8px; text-align: center; border: 2px solid var(--wheel); }
+  .psi2 > div.rear { border-color: var(--service); }
+  .psi2 .k { font-size: 13px; color: var(--sub); }
+  .psi2 .n { font-size: 22px; font-weight: 800; margin: 6px 0 2px; color: var(--wheel); }
+  .psi2 .rear .n { color: var(--service); }
+  .psi2 .u { font-size: 12px; color: var(--sub); }
+  .psi2 .o { font-size: 14px; font-weight: 700; margin-top: 8px; }
+  .note { font-size: 12px; color: var(--sub); margin-top: 10px; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -86,12 +130,26 @@
 
   <!-- 홈 -->
   <section id="tab-home">
-    <div class="card" id="kmCard">
-      <h3>현재 누적 거리</h3>
-      <div class="kmbox">
-        <div class="big" id="kmNow">0 km</div>
-        <button class="btn" onclick="editKm()">수정</button>
+    <div class="card bikecard" id="kmCard">
+      <div class="bc-top" onclick="openBike(curBike)">
+        <div class="bc-info">
+          <div class="bc-name" id="bcName"></div>
+          <div class="bc-model" id="bcModel"></div>
+        </div>
+        <div class="bc-photo" id="bcPhoto">🚲</div>
       </div>
+      <div class="bc-foot">
+        <span>총 누적 거리</span>
+        <b id="kmNow">0 km</b>
+        <button class="btn" onclick="editKm()">km 수정</button>
+      </div>
+    </div>
+    <div class="card" id="alertCard">
+      <div class="kmbox" style="margin-bottom:10px">
+        <h3 style="margin:0" id="alertHead">정비 시기</h3>
+        <button class="btn" id="alertAdd" onclick="openAlert()">+ 품목 추가</button>
+      </div>
+      <div id="alertList"></div>
     </div>
     <div class="card">
       <h3>마지막 교체·정비 이후</h3>
@@ -143,6 +201,35 @@
     </div>
   </section>
 
+  <!-- 계산 -->
+  <section id="tab-calc" class="hide">
+    <div id="calc-psi">
+      <div class="card">
+        <label style="margin-top:0">라이더 체중 (kg)</label>
+        <div class="stepper">
+          <button onclick="stepW(-1)">-1</button>
+          <input type="number" id="pW" inputmode="decimal" oninput="calcPsi()">
+          <button onclick="stepW(1)">+1</button>
+        </div>
+        <label>자전거 무게 (kg)</label>
+        <input type="number" id="pBike" inputmode="decimal" oninput="calcPsi()">
+        <label>타이어 세팅</label>
+        <div class="seg" id="pTube">
+          <button data-v="tube">튜브</button>
+          <button data-v="tubeless">튜블리스</button>
+        </div>
+        <label>타이어 폭</label>
+        <div class="seg" id="pWidth"></div>
+        <div class="toggle"><span>🌧 우천 / 젖은 노면 (5% 감압)</span><input type="checkbox" id="pWet" onchange="calcPsi()"></div>
+      </div>
+      <div class="psi2" id="psiOut"></div>
+      <div class="card note" style="margin-top:12px">
+        • 참고값입니다 (무게 배분 로드·그래블 앞 40%·뒤 60%, MTB 앞 45%·뒤 55%). 타이어·림에 적힌 최대 압력을 넘기지 마세요.<br>
+        • 노면이 거칠거나 승차감이 중요하면 낮은 쪽, 포장도로 고속 주행이면 높은 쪽에 맞추세요.
+      </div>
+    </div>
+  </section>
+
   <!-- 설정 -->
   <section id="tab-set" class="hide">
     <div class="card">
@@ -168,6 +255,7 @@
   <button data-tab="list">기록</button>
   <button data-tab="cal">달력</button>
   <button data-tab="stat">통계</button>
+  <button data-tab="calc">공기압</button>
   <button data-tab="set">설정</button>
 </nav>
 
@@ -209,14 +297,44 @@
 <div class="modal" id="bikeModal">
   <div class="sheet">
     <h2 id="bikeTitle">자전거 추가</h2>
+    <label>사진</label>
+    <div class="bc-photo pick" id="bPhotoPrev" onclick="$('bPhoto').click()">📷 사진 선택</div>
+    <input type="file" id="bPhoto" accept="image/*" class="hide" onchange="pickPhoto(event)">
     <label>이름</label>
-    <input id="bName" placeholder="예: MTB">
-    <label>현재 누적 km</label>
+    <input id="bName" placeholder="예: 트랙">
+    <label>모델</label>
+    <input id="bModel" placeholder="예: 프로칼리버 9.9">
+    <label>총 누적 km</label>
     <input type="number" id="bKm" inputmode="numeric" placeholder="0">
     <div class="acts">
       <button class="btn del hide" id="bikeDel" onclick="delBike()">삭제</button>
       <button class="btn" onclick="closeModal('bikeModal')">취소</button>
       <button class="btn main" onclick="saveBike()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 교체 알림 입력 -->
+<div class="modal" id="alertModal">
+  <div class="sheet">
+    <h2 id="alertTitle">품목 추가</h2>
+    <label>품목</label>
+    <input id="aItem" list="alertItems" placeholder="예: 체인">
+    <datalist id="alertItems"></datalist>
+    <label>정비 주기 (둘 중 하나만 넣어도 됩니다 · 둘 다 넣으면 먼저 닿는 쪽)</label>
+    <div class="two">
+      <div><input type="number" id="aEvery" inputmode="numeric" placeholder="km"></div>
+      <div><input type="number" id="aMonths" inputmode="numeric" placeholder="개월"></div>
+    </div>
+    <label>마지막 교체·정비</label>
+    <div class="two">
+      <div><input type="date" id="aDate"></div>
+      <div><input type="number" id="aStart" inputmode="numeric" placeholder="km"></div>
+    </div>
+    <div class="acts">
+      <button class="btn del hide" id="alertDel" onclick="delAlert()">삭제</button>
+      <button class="btn" onclick="closeModal('alertModal')">취소</button>
+      <button class="btn main" onclick="saveAlert()">저장</button>
     </div>
   </div>
 </div>
@@ -254,6 +372,7 @@ const bikeName = id => (data.bikes.find(b => b.id === id) || {}).name || '-';
 // ===== 저장/불러오기 =====
 async function load() {
   try { const c = localStorage.getItem(LS); if (c) data = JSON.parse(c); } catch (e) {}
+  migrate();
   render();
   setSync('불러오는 중…');
   try {
@@ -264,8 +383,14 @@ async function load() {
       setSync('');
     } else setSync('서버 오류');
   } catch (e) { setSync('오프라인'); }
-  if (!data.bikes.length) { data.bikes.push({ id: uid(), name: 'MTB', km: 0 }); save(); }
+  if (!data.bikes.length) { data.bikes.push({ id: uid(), name: '트랙', model: '프로칼리버 9.9', km: 19763, alerts: defaultAlerts(19763) }); save(); }
+  migrate();
   render();
+}
+// 예전 형식(every/start) 알림을 새 형식으로 바꿈
+function migrate() {
+  data.bikes.forEach(b => b.alerts = (b.alerts || []).map(a => a.every !== undefined
+    ? { id: a.id, item: a.item, everyKm: a.every, everyMonths: 0, startKm: a.start || 0, startDate: today() } : a));
 }
 function cache() { try { localStorage.setItem(LS, JSON.stringify(data)); } catch (e) {} }
 async function save() {
@@ -297,7 +422,7 @@ function render() {
   const bikes = data.bikes;
   let chips = '';
   if (bikes.length > 1) chips += `<button class="chip ${curBike === 'all' ? 'on' : ''}" onclick="pickBike('all')">전체</button>`;
-  bikes.forEach(b => chips += `<button class="chip ${curBike === b.id || (bikes.length === 1) ? 'on' : ''}" onclick="pickBike('${b.id}')">${b.name}</button>`);
+  bikes.forEach(b => chips += `<button class="chip ${curBike === b.id || (bikes.length === 1) ? 'on' : ''}" onclick="pickBike('${b.id}')">${b.name}${badge(b)}</button>`);
   $('bikeChips').innerHTML = chips;
   if (bikes.length === 1) curBike = bikes[0].id;
 
@@ -309,7 +434,31 @@ function pickBike(id) { curBike = id; render(); }
 function renderHome() {
   const bike = data.bikes.find(b => b.id === curBike);
   $('kmCard').classList.toggle('hide', !bike);
-  if (bike) $('kmNow').textContent = (bike.km || 0).toLocaleString() + ' km';
+  if (bike) {
+    $('kmNow').textContent = (bike.km || 0).toLocaleString() + ' km';
+    $('bcName').textContent = bike.name;
+    $('bcModel').textContent = bike.model || '';
+    setPhoto($('bcPhoto'), bike);
+  }
+  // 정비 시기 (급한 순서)
+  const list = [];
+  data.bikes.filter(b => curBike === 'all' || b.id === curBike)
+    .forEach(b => (b.alerts || []).forEach(a => list.push({ b, a, s: alertStatus(b, a) })));
+  list.sort((x, y) => y.s.ratio - x.s.ratio);
+  const need = list.filter(x => x.s.cls !== 'ok').length;
+  $('alertHead').innerHTML = '정비 시기' + (need ? `<span class="badge ${list.some(x => x.s.cls === 'over') ? 'red' : ''}">${need}</span>` : '');
+  $('alertAdd').classList.toggle('hide', !bike);
+  $('alertList').innerHTML = list.length ? list.map(({ b, a, s }) => `<div class="al ${s.cls}">
+      <div class="al-top">
+        <div class="l" onclick="openAlert('${b.id}','${a.id}')">
+          <div class="nm">${curBike === 'all' ? b.name + ' · ' : ''}${a.item}</div>
+          <div class="st">${s.text}</div>
+          <div class="fr">${a.startDate} · ${(a.startKm || 0).toLocaleString()} km부터</div>
+        </div>
+        <button class="done" onclick="doneAlert('${b.id}','${a.id}')">완료</button>
+      </div>
+      <div class="al-bar"><i style="width:${Math.min(100, s.ratio * 100)}%"></i></div></div>`).join('')
+    : (bike ? '<div class="empty">관리할 품목이 없습니다<br><br><button class="btn" onclick="addDefaults()">기본 품목 넣기</button></div>' : '<div class="empty">관리할 품목이 없습니다</div>');
 
   const recs = recsOfBike();
   // 품목별 가장 최근 기록
@@ -336,6 +485,119 @@ function editKm() {
   const v = prompt('현재 누적 km', b.km || 0);
   if (v === null || v === '' || isNaN(v)) return;
   b.km = Number(v); save(); render();
+}
+
+// ===== 정비 시기 (소모품 알림) =====
+const DEFAULTS = [['체인', 3000, 0], ['앞 브레이크패드', 2000, 0], ['뒤 브레이크패드', 2000, 0], ['뒤 타이어', 4000, 0], ['실런트', 0, 3], ['브레이크 블리딩', 0, 12]];
+function defaultAlerts(km) {
+  return DEFAULTS.map(([item, everyKm, everyMonths]) => ({ id: uid(), item, everyKm, everyMonths, startKm: km || 0, startDate: today() }));
+}
+function addDefaults() {
+  const b = data.bikes.find(x => x.id === curBike);
+  b.alerts = defaultAlerts(b.km); save(); render();
+}
+function addMonths(ds, m) { const d = new Date(ds); d.setMonth(d.getMonth() + m); return ymd(d); }
+function alertStatus(b, a) {
+  let kmR = -1, dayR = -1, kmLeft = 0, daysLeft = 0, due = '';
+  if (a.everyKm) {
+    const used = Math.max(0, (b.km || 0) - (a.startKm || 0));
+    kmLeft = a.everyKm - used; kmR = used / a.everyKm;
+  }
+  if (a.everyMonths) {
+    const start = a.startDate || today();
+    due = addMonths(start, a.everyMonths);
+    daysLeft = daysBetween(today(), due);
+    dayR = 1 - daysLeft / (daysBetween(start, due) || 1);
+  }
+  const ratio = Math.max(kmR, dayR, 0);
+  const cls = ratio >= 1 ? 'over' : ratio >= 0.8 ? 'soon' : 'ok';
+  const byKm = kmR >= dayR;
+  let text;
+  if (cls === 'over') text = byKm ? `정비 시기 · ${(-kmLeft).toLocaleString()} km 초과` : `정비 시기 · ${due}부터 초과`;
+  else text = (cls === 'soon' ? '곧 정비 · ' : '양호 · ') + (byKm ? `${kmLeft.toLocaleString()} km 남음` : `${due}까지(${daysLeft}일)`);
+  return { ratio, cls, text };
+}
+function needCount(b) { return (b.alerts || []).map(a => alertStatus(b, a).cls).filter(c => c !== 'ok'); }
+function badge(b) {
+  const n = needCount(b);
+  return n.length ? `<span class="badge ${n.includes('over') ? 'red' : ''}">${n.length}</span>` : '';
+}
+
+let editAlertId = null, editAlertBike = null;
+function openAlert(bikeId, id) {
+  const b = data.bikes.find(x => x.id === (bikeId || curBike));
+  if (!b) return;
+  editAlertBike = b.id; editAlertId = id || null;
+  const a = (b.alerts || []).find(x => x.id === id);
+  $('alertTitle').textContent = (a ? '품목 수정' : '품목 추가') + ' · ' + b.name;
+  $('alertItems').innerHTML = [...ITEMS.wheel, ...ITEMS.part, ...ITEMS.service].map(i => `<option value="${i}">`).join('');
+  $('aItem').value = a ? a.item : '';
+  $('aEvery').value = a && a.everyKm ? a.everyKm : '';
+  $('aMonths').value = a && a.everyMonths ? a.everyMonths : '';
+  $('aDate').value = a ? a.startDate : today();
+  $('aStart').value = a ? a.startKm : (b.km || 0);
+  $('alertDel').classList.toggle('hide', !a);
+  $('alertModal').classList.add('show');
+}
+function saveAlert() {
+  const b = data.bikes.find(x => x.id === editAlertBike);
+  const item = $('aItem').value.trim();
+  const everyKm = Number($('aEvery').value) || 0, everyMonths = Number($('aMonths').value) || 0;
+  if (!item) return alert('품목을 입력하세요');
+  if (!everyKm && !everyMonths) return alert('km나 개월 중 하나는 입력하세요');
+  const v = { item, everyKm, everyMonths, startKm: Number($('aStart').value) || 0, startDate: $('aDate').value || today() };
+  b.alerts = b.alerts || [];
+  if (editAlertId) Object.assign(b.alerts.find(x => x.id === editAlertId), v);
+  else b.alerts.push({ id: uid(), ...v });
+  closeModal('alertModal'); save(); render();
+}
+function delAlert() {
+  if (!confirm('이 품목을 삭제할까요?')) return;
+  const b = data.bikes.find(x => x.id === editAlertBike);
+  b.alerts = b.alerts.filter(x => x.id !== editAlertId);
+  closeModal('alertModal'); save(); render();
+}
+function doneAlert(bikeId, id) {
+  const b = data.bikes.find(x => x.id === bikeId);
+  const a = b.alerts.find(x => x.id === id);
+  if (!confirm(`${a.item} 완료로 기록할까요?\n(오늘 · ${(b.km || 0).toLocaleString()} km)`)) return;
+  const type = ITEMS.wheel.includes(a.item) ? 'wheel' : ITEMS.part.includes(a.item) ? 'part' : 'service';
+  const rec = { id: uid(), type, bikeId, date: today(), km: b.km || 0, item: a.item, product: '', price: 0, place: '', memo: '' };
+  data.records.push(rec);
+  a.startKm = b.km || 0; a.startDate = today();
+  save(); render();
+  openRec(rec.id); // 가격·제품명을 이어서 넣을 수 있게 바로 엶
+}
+
+// ===== 사진 =====
+let newPhoto = null;
+function photoUrl(b) { return API.replace(/\/data$/, '') + '/photo/' + b.id + '?v=' + b.photoV; }
+function setPhoto(el, b) {
+  if (b && b.photoV) { el.style.backgroundImage = `url('${photoUrl(b)}')`; el.classList.add('has'); }
+  else { el.style.backgroundImage = ''; el.classList.remove('has'); }
+}
+function pickPhoto(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const img = new Image();
+  img.onload = () => {
+    const max = 1000, s = Math.min(1, max / Math.max(img.width, img.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    c.toBlob(bl => {
+      newPhoto = bl;
+      const el = $('bPhotoPrev');
+      el.style.backgroundImage = `url('${URL.createObjectURL(bl)}')`; el.classList.add('has');
+    }, 'image/jpeg', 0.85);
+    URL.revokeObjectURL(img.src);
+  };
+  img.src = URL.createObjectURL(f);
+  e.target.value = '';
+}
+async function uploadPhoto(id, blob) {
+  setSync('사진 올리는 중…');
+  const r = await fetch(API.replace(/\/data$/, '') + '/photo/' + id, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg', 'X-Key': KEY }, body: blob });
+  if (!r.ok) throw 0;
 }
 
 // ===== 기록 목록 =====
@@ -394,7 +656,7 @@ function moveYear(n) { statY += n; renderStat(); }
 // ===== 설정 =====
 function renderSet() {
   $('bikeList').innerHTML = data.bikes.map(b => `<div class="row" onclick="openBike('${b.id}')">
-    <div class="l"><div class="t">🚲 ${b.name}</div><div class="s">${(b.km || 0).toLocaleString()} km · 기록 ${data.records.filter(r => r.bikeId === b.id).length}개</div></div>
+    <div class="l"><div class="t">🚲 ${b.name}${badge(b)} <span style="color:var(--sub);font-size:13px">${b.model || ""}</span></div><div class="s">${(b.km || 0).toLocaleString()} km · 기록 ${data.records.filter(r => r.bikeId === b.id).length}개</div></div>
     <div class="r">수정 ›</div></div>`).join('');
 }
 function openBike(id) {
@@ -402,17 +664,27 @@ function openBike(id) {
   const b = data.bikes.find(x => x.id === id);
   $('bikeTitle').textContent = b ? '자전거 수정' : '자전거 추가';
   $('bName').value = b ? b.name : '';
+  $('bModel').value = b ? (b.model || '') : '';
   $('bKm').value = b ? (b.km || '') : '';
+  newPhoto = null;
+  setPhoto($('bPhotoPrev'), b);
   $('bikeDel').classList.toggle('hide', !b || data.bikes.length < 2);
   $('bikeModal').classList.add('show');
 }
-function saveBike() {
+async function saveBike() {
   const name = $('bName').value.trim();
   if (!name) return alert('이름을 입력하세요');
-  const km = Number($('bKm').value) || 0;
-  if (editBikeId) { const b = data.bikes.find(x => x.id === editBikeId); b.name = name; b.km = km; }
-  else data.bikes.push({ id: uid(), name, km });
-  closeModal('bikeModal'); save(); render();
+  const km = Number($('bKm').value) || 0, model = $('bModel').value.trim();
+  let b = data.bikes.find(x => x.id === editBikeId);
+  if (b) Object.assign(b, { name, model, km });
+  else { b = { id: uid(), name, model, km, alerts: defaultAlerts(km) }; data.bikes.push(b); }
+  closeModal('bikeModal');
+  if (newPhoto) {
+    try { await uploadPhoto(b.id, newPhoto); b.photoV = Date.now(); }
+    catch (e) { alert('사진 저장에 실패했습니다'); }
+    newPhoto = null;
+  }
+  save(); render();
 }
 function delBike() {
   if (!confirm('이 자전거와 기록을 모두 삭제할까요?')) return;
@@ -484,6 +756,10 @@ function saveRec() {
   // 기록 km가 자전거 현재 km보다 크면 자동 갱신
   const b = data.bikes.find(x => x.id === rec.bikeId);
   if (b && rec.km > (b.km || 0)) b.km = rec.km;
+  // 기록의 품목이 정비 시기 품목과 같고 더 최근이면 그 품목을 0부터 다시 셈
+  if (b) (b.alerts || []).forEach(a => {
+    if (a.item === rec.item && rec.date >= (a.startDate || '')) { a.startKm = rec.km || b.km || 0; a.startDate = rec.date; }
+  });
   closeModal('recModal'); save(); render();
 }
 function delRec() {
@@ -497,13 +773,50 @@ document.querySelectorAll('.modal').forEach(m => m.onclick = e => { if (e.target
 // ===== 탭 =====
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
   document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
-  ['home', 'list', 'cal', 'stat', 'set'].forEach(t => $('tab-' + t).classList.toggle('hide', t !== b.dataset.tab));
+  ['home', 'list', 'cal', 'stat', 'calc', 'set'].forEach(t => $('tab-' + t).classList.toggle('hide', t !== b.dataset.tab));
   window.scrollTo(0, 0);
 });
+
+// ===== 타이어 공기압 =====
+const WIDTHS = [['23c', 23], ['25c', 25], ['28c', 28], ['30c', 30], ['32c', 32], ['35c', 35], ['38c', 38], ['40c', 40], ['45c', 45],
+  ['2.2"', 2.2], ['2.3"', 2.3], ['2.4"', 2.4], ['2.5"', 2.5], ['2.6"', 2.6]];
+const PSI_LS = 'yongyong-bike-psi';
+let psi = { w: 70, bike: 12, tube: 'tube', width: 2.3, wet: false };
+try { Object.assign(psi, JSON.parse(localStorage.getItem(PSI_LS) || '{}')); } catch (e) {}
+function initPsi() {
+  $('pW').value = psi.w; $('pBike').value = psi.bike; $('pWet').checked = psi.wet;
+  $('pWidth').innerHTML = WIDTHS.map(([t, v]) => `<button data-v="${v}">${t}</button>`).join('');
+  document.querySelectorAll('#pWidth button').forEach(b => b.onclick = () => { psi.width = Number(b.dataset.v); calcPsi(); });
+  document.querySelectorAll('#pTube button').forEach(b => b.onclick = () => { psi.tube = b.dataset.v; calcPsi(); });
+  calcPsi();
+}
+function stepW(n) { $('pW').value = (Number($('pW').value) || 0) + n; calcPsi(); }
+function calcPsi() {
+  psi.w = Number($('pW').value) || 0; psi.bike = Number($('pBike').value) || 0; psi.wet = $('pWet').checked;
+  try { localStorage.setItem(PSI_LS, JSON.stringify(psi)); } catch (e) {}
+  document.querySelectorAll('#pWidth button').forEach(b => b.classList.toggle('on', Number(b.dataset.v) === psi.width));
+  document.querySelectorAll('#pTube button').forEach(b => b.classList.toggle('on', b.dataset.v === psi.tube));
+  const lb = (psi.w + psi.bike) * 2.2046, mtb = psi.width < 10;
+  let f, r;
+  if (mtb) { // MTB(인치): 앞 45% · 뒤 55%
+    f = lb * 0.45 / (psi.width * 1.75); r = lb * 0.55 / (psi.width * 1.75);
+  } else {   // 로드·그래블(mm): 앞 40% · 뒤 60%, 15% 타이어 처짐 공식
+    const k = Math.pow(psi.width, 1.5785);
+    f = 153.6 * lb * 0.4 / k - 7.1685; r = 153.6 * lb * 0.6 / k - 7.1685;
+  }
+  const m = (psi.tube === 'tubeless' ? 0.9 : 1) * (psi.wet ? 0.95 : 1);
+  f = Math.max(0, f * m); r = Math.max(0, r * m);
+  const box = (cls, name, v) => `<div class="${cls}"><div class="k">${name}</div>
+    <div class="n">${(v * 0.92).toFixed(1)} ~ ${(v * 1.06).toFixed(1)}</div><div class="u">PSI</div>
+    <div class="u">${(v * 0.92 * 0.0689).toFixed(2)} ~ ${(v * 1.06 * 0.0689).toFixed(2)} Bar</div>
+    <div class="o">최적 ${v.toFixed(1)} PSI</div></div>`;
+  $('psiOut').innerHTML = box('', '앞 타이어', f) + box('rear', '뒤 타이어', r);
+}
 
 // ===== 시작 =====
 const now = new Date();
 calY = now.getFullYear(); calM = now.getMonth(); statY = now.getFullYear();
+initPsi();
 load();
 </script>
 </body>
