@@ -597,7 +597,7 @@ function pickPhoto(e) {
 async function uploadPhoto(id, blob) {
   setSync('사진 올리는 중…');
   const r = await fetch(API.replace(/\/data$/, '') + '/photo/' + id, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg', 'X-Key': KEY }, body: blob });
-  if (!r.ok) throw 0;
+  if (!r.ok) throw new Error(r.status + ' ' + (await r.text()));
 }
 
 // ===== 기록 목록 =====
@@ -681,7 +681,7 @@ async function saveBike() {
   closeModal('bikeModal');
   if (newPhoto) {
     try { await uploadPhoto(b.id, newPhoto); b.photoV = Date.now(); }
-    catch (e) { alert('사진 저장에 실패했습니다'); }
+    catch (e) { alert('사진 저장에 실패했습니다\n' + (e.message || e)); setSync(''); }
     newPhoto = null;
   }
   save(); render();
